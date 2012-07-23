@@ -1,0 +1,23 @@
+/*
+*  Licensed Materials - Property of IBM
+*  5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+*  US Government Users Restricted Rights - Use, duplication or
+*  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+*/
+
+/* this CSS file extends the application CSS file found under common\css */
+
+/* body should stretch in an Android application */
+body {
+	background-color: white;
+	height: auto;
+	min-height: 100%;
+	overflow: auto;
+}
+
+/*WorkLight container div */
+#content {
+	height: auto;
+	min-height: 100%;
+	width: 100%;
+}

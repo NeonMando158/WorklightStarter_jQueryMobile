@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<wl:adapter name="SQLAdapter"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:wl="http://www.worklight.com/integration"
+	xmlns:sql="http://www.worklight.com/integration/sql">
+
+	<displayName>SQLAdapter</displayName>
+	<description>SQLAdapter</description>
+	<connectivity>
+		<connectionPolicy xsi:type="sql:SQLConnectionPolicy">
+			<!-- Example for using a JNDI data source, replace with actual data source name -->
+			<!-- <dataSourceJNDIName>java:/data-source-jndi-name</dataSourceJNDIName> -->
+			
+			<!-- Example for using MySQL connector, do not forget to put the MySQL connector library in the project's lib folder -->
+			<dataSourceDefinition>
+				<driverClass>com.mysql.jdbc.Driver</driverClass>
+				<url>jdbc:mysql://teamjacob.db.5295262.hostedresource.com:3306/teamjacob</url>
+			    <user>teamjacob</user>
+    			<password>Password1</password> 
+			</dataSourceDefinition>
+		</connectionPolicy>
+		<loadConstraints maxConcurrentConnectionsPerNode="5" />
+	</connectivity>
+
+	<!-- Replace this with appropriate procedures -->
+	<!-- Using prepared SQL query statement -->
+ 		<procedure name="getAccountTransactions1"/> 
+	<!-- Using stored SQL procedure -->
+ 		<procedure name="getAccountTransactions2"/>
+ 		<procedure name="getItemsInInspecion"/>
+ 		<procedure name="getInspections" />
+ 		<procedure name="getItemInfo" />
+ 		<procedure name="putItem" />
+ 		
+</wl:adapter>

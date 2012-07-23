@@ -1,0 +1,171 @@
+<!--  
+ Licensed Materials - Property of IBM
+ 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ US Government Users Restricted Rights - Use, duplication or 
+ disclosure restricted by GSA ADP Schedule Contract with IBM Corp.  
+ -->
+
+ <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" />
+        <title>IWM</title>
+        <link rel="shortcut icon" href="images/favicon.png" />
+        <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+    
+        <link rel="stylesheet" href="css/WorklightStarter_jQueryMobile.css" />
+        <link rel="stylesheet" href="css/jquery.mobile-1.0.css" />
+    </head>
+    <body onload="WL.Client.init({})" id="content" style='display: none'>
+    
+    	<!-- This is the main page, it lists the inspection in the DB -->
+		<div data-role="page" id="mainPage"> 
+			<div data-role="header" data-position="fixed">				
+					<h3>IWM - Inspections</h3>
+			</div> <!-- /header -->
+			<div data-role="content">
+				<ul data-role="listview" id="inspectionsList" data-split-theme="a"></ul>
+			</div>
+			<div data-role="footer" class="ui-bar" data-position="fixed">
+				<a href="#" data-role="button" data-icon="refresh" onclick="loadInspections()">Refresh</a>
+			</div>
+		</div>
+
+		<!-- This is the main page, it lists the items to be inspected -->
+		<div data-role="page" id="InspListPage" data-add-back-btn="true"> 
+			<div data-role="header" data-position="fixed">				
+					<h3>IWM - Items to inspect</h3>
+					<!-- <a href="#" data-icon="gear" class="ui-btn-right" onclick="loadFeeds()">Refresh</a>-->
+			</div> <!-- /header -->
+			<div data-role="content">
+			<!-- <div id="inspectionID" style="display: none"></div> -->
+				<ul data-role="listview" id="itemList" data-split-theme="a"></ul>
+			</div>
+			<div data-role="footer" class="ui-bar" data-position="fixed">
+				<a href="#" data-role="button" data-icon="check">Submit</a>
+				<a href="#" data-role="button" data-icon="alert" onclick="contactPage()">Contact</a>
+				<!-- TODO make the loadInsptItems call the id of the inspection programatically -->
+				<a href="#" data-role="button" data-icon="refresh" onclick="loadInsptItems(1)">Refresh</a>
+			</div>
+		</div> 
+		
+		
+		<!-- This page shows the details of an individual inspection -->
+		<div data-role="page" id="InspItemPage" data-add-back-btn="true"> 
+			<div data-role="header" data-position="fixed">
+				<h2>IWM - Item</h2>
+			</div> 
+			<div data-role="content" id="InspectionItem">
+			
+					<div id="response"></div>
+					
+					<!-- Alarm switch -->
+					<!-- TODO move style to CSS file -->
+					<div style="float: right;">
+						<label for="alarm">Alarm:</label>
+							<select name="slider" id="alarm" data-role="slider">
+							<option value="off">Off</option>
+							<option value="on">On</option>
+						</select> 
+					</div>	
+					
+					<!-- Name of item being inspected -->
+					<div id="itemName"></div>
+					   
+				<!-- TODO move style to CSS file -->
+				<h3 style="color: blue;">Output Voltage</h3>
+				<div class="ui-grid-b">
+			   		<div class="ui-block-a"><div style="margin: 5px 10px 5px 0px;"><label for="volt_a" class="">Phase A:</label><input type="text" name="volt_a" id="volt_a" value=""  /></div></div>
+					<div class="ui-block-b"><div style="margin: 5px 10px 5px 10px;"><label for="volt_b" class="">Phase B:</label><input type="text" name="volt_b" id="volt_b" value=""  /></div></div>
+					<div class="ui-block-c"><div style="margin: 5px 10px 5px 10px;"><label for="volt_c" class="">Phase C:</label><input type="text" name="volt_c" id="volt_c" value=""  /></div></div>
+				</div><!-- /grid-b -->
+				<h3 style="color: blue;">Output Current</h3>
+				<div class="ui-grid-b">
+					<div class="ui-block-a"><div style="margin: 5px 10px 5px 0px;"><label for="curr_a" class="">Phase A:</label><input type="text" name="curr_a" id="curr_a" value=""  /></div></div>
+					<div class="ui-block-b"><div style="margin: 5px 10px 5px 10px;"><label for="curr_b" class="">Phase B:</label><input type="text" name="curr_b" id="curr_b" value=""  /></div></div>
+					<div class="ui-block-c"><div style="margin: 5px 10px 5px 10px;"><label for="curr_c" class="">Phase C:</label><input type="text" name="curr_c" id="curr_c" value=""  /></div></div>
+				</div><!-- /grid-b -->
+				<h3 style="color: blue;">KVA Size and Load</h3>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div style="margin: 5px 10px 5px 0px;"><label for="kva_size" class="">Size:</label><input type="text" name="kva_size" id="kva_size" value=""  /></div></div>
+					<div class="ui-block-b"><div style="margin: 5px 10px 5px 10px;"><label for="kva_load" class="">Load:</label><input type="text" name="kva_load" id="kva_load" value=""  /></div></div>
+				</div><!-- /grid-a -->
+				<h3 style="color: blue;">Neutral and Ground Current</h3>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><div style="margin: 5px 10px 5px 0px;"><label for="neutral_current" class="">Neutral:</label><input type="text" name="neutral_current" id="neutral_current" value=""  /></div></div>
+					<div class="ui-block-b"><div style="margin: 5px 10px 5px 10px;"><label for="ground_current" class="">Ground:</label><input type="text" name="ground_current" id="ground_current" value=""  /></div></div>
+				</div><!-- /grid-a -->
+				
+				<h3 style="color: blue;"><label for="notes">Notes:</label></h3>
+				<textarea name="notes" id="notes"></textarea>
+						
+			</div> <!-- /content -->
+			
+			<div data-role="footer" class="ui-bar" data-position="fixed">
+				<a href="#" data-role="button" data-icon="check" onClick="submitItemInspection()">Submit Item as Inspected</a>
+				<a href="#" data-role="button" data-icon="alert" onClick="contactPage()">Contact</a>
+			</div> <!-- /footer -->
+			
+		</div> <!-- /inspItemPage -->
+
+
+		<!-- This is the contact page -->
+		<div data-role="page" id="ContactPage" data-add-back-btn="true"> 
+			<div data-role="header" data-position="fixed">
+				<h3>IWM - Contact</h3>
+			</div>
+			<div data-role="content" id="AboutContent">
+					
+					<!-- TODO have name show up programmatically -->
+					<div id="inspectionOwner"></div>
+					
+					<div id="emailSendResult"></div>
+				
+					<div data-role="fieldcontain" class="ui-hide-label">					
+						<label for="address">To:</label>
+						<!-- TODO have name show up programmatically -->
+						<input type="text" name="address" id="address" value="" readonly="readonly" /> 
+					</div>
+					
+					<div data-role="fieldcontain"class="ui-hide-label">
+						<label for="subject">Subject:</label>
+						<input type="text" name="subject" id="subject" value="" placeholder="Subject" />						
+					</div>
+					
+					<div data-role="fieldcontain"class="ui-hide-label">
+						<label for="message">Message:</label>
+						<textarea type="text" name="message" id="message">Message</textarea>						
+					</div>		
+					
+					<fieldset class="ui-grid-a">
+						<button id="submit" value="submit-value" data-icon="check" onClick="sendMail()">Submit</button>
+	    			</fieldset>		
+					
+				
+			</div>
+			
+			<div data-role="footer" class="ui-bar" data-position="fixed">
+				<!-- <a href="#" data-role="button" id="submitEmail" data-icon="check">Send</a>  -->
+			</div>
+			
+		</div>
+		
+		<div data-role="dialog" id="DialogPage"> 
+			<div data-role="header" data-theme="d">
+				<h1>Dialog</h1>
+			</div>
+			
+			<div data-role="content">
+				<h3 id="DialogText"></h3>
+				<a href="#" data-role="button" data-rel="back">Close</a>			
+			</div> 
+		</div>
+		
+    	
+        <script src="js/WorklightStarter_jQueryMobile.js"></script>
+        <script src="js/messages.js"></script>
+        <script src="js/auth.js"></script>
+		<script src="js/jquery.mobile-1.0.js"></script>
+    </body>
+</html>

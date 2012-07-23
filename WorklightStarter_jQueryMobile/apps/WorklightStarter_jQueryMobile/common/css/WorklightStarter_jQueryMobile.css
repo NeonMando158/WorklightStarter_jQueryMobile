@@ -1,0 +1,66 @@
+/*
+*  Licensed Materials - Property of IBM
+*  5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+*  US Government Users Restricted Rights - Use, duplication or
+*  disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+*/
+
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+#AboutContent {
+	text-align: center;
+	color: #1670B7;
+	font-weight: bold;
+	text-shadow: 0 1px 1px #FFFFFF;
+}
+
+#aboutWorklightTitle {
+	background: transparent url("../images/IBM_logo.png") no-repeat scroll 50% 30px;
+	height: 80px;
+	text-indent: -9999px;
+	width: 100%;
+}
+
+#aboutWorklightProductName {
+	color: #000000;
+	font-weight: bold;
+	font-size: 18px;
+	line-height: 18px;
+	margin: 0 auto;
+	max-width: 260px;
+	text-align: center;
+	text-shadow: 0 1px 1px #fff;
+	width: 260px;
+}
+
+#aboutWorklightVersion {
+	color: #000000;
+	font-weight: bold;
+	font-size: 14px;
+	line-height: 18px;
+	margin: 8px auto;
+	max-width: 260px;
+	text-align: center;
+	text-shadow: 0 1px 1px #fff;
+	width: 260px;
+}
+
+#aboutWorklightText {
+	color: #000000;
+	font-weight: bold;
+	line-height: 18px;
+	margin: 0 auto;
+	max-width: 260px;
+	text-align: center;
+	text-shadow: 0 1px 1px #fff;
+	width: 260px;
+}
+
+/*Added by Ralph Pina below this point */
+
+
+
+

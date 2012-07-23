@@ -1,0 +1,1 @@
+As some source control systems do not accept empty folders, this file was automatically created to make its containing folder non-empty.

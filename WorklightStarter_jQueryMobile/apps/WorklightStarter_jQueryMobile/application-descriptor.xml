@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<!-- Licensed Materials - Property of IBM
+		 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+		 US Government Users Restricted Rights - Use, duplication or
+            disclosure restricted by GSA ADP Schedule Contract with IBM Corp. -->
+	<!-- Attribute "id" must be identical to application folder name -->
+<application xmlns="http://www.worklight.com/application-descriptor" id="WorklightStarter_jQueryMobile" platformVersion="5.0">
+    <displayName>WorklightStarter_jQueryMobile</displayName>
+    <description>WorklightStarter_jQueryMobile</description>
+    <author>
+        <name>application's author</name>
+        <email>application author's e-mail</email>
+    </author>
+    <height>460</height>
+    <width>320</width>
+    <mainFile>WorklightStarter_jQueryMobile.html</mainFile>
+    <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
+    <usage requireAuthentication="never"/>
+    <iphone version="1.0">
+        <worklightSettings include="true"/>
+        <security>
+            <testAppAuthenticity enabled="false"/>
+            <encryptWebResources enabled="false"/>
+            <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
+        </security>
+    </iphone>
+	<android version="1.0">
+        <worklightSettings include="true"/>
+        <security>
+            <testAppAuthenticity enabled="false"/>
+            <encryptWebResources enabled="false"/>
+            <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
+            <publicSigningKey>Replace this text with the public key of the certificate with which you sign the APK. For details see the Worklight Developer's Reference Guide.</publicSigningKey>
+        </security>
+    </android>
+	<worklightServerRootURL>http://${local.IPAddress}:8080</worklightServerRootURL>
+</application>
