@@ -68,7 +68,7 @@ function getItemsInInspecion(inspectionID){
 
 //statement and function to pull down all inspections to the main loading page
 var getInspectionsStatement = WL.Server.createSQLStatement(
-		"SELECT ID, inspection_title, DATE_FORMAT(due_date, '%m-%d-%Y') AS due_date, owner_name, owner_email " +
+		"SELECT ID, inspection_title, DATE_FORMAT(due_date, '%m-%d-%Y') AS due_date, DATE_FORMAT(complete_date, '%m-%d-%Y') AS complete_date, owner_name, owner_email " +
 		"FROM inspections_overview;"
 		);
 
@@ -91,5 +91,19 @@ function putItem(kva_size, volt_a, volt_b, volt_c, curr_a, curr_b, curr_c, kva_l
 		preparedStatement : putItemStatement,
 		parameters : [kva_size, volt_a, volt_b, volt_c, curr_a, curr_b, curr_c, kva_load, neutral_current, ground_current, alarm, notes, id]
 	});
+}
+
+var submitInspectionStatement = WL.Server.createSQLStatement(
+		"UPDATE inspections_overview " +
+		"SET complete_date = CURDATE() " +
+		"WHERE inspection_ID = ?;"
+		);
+
+function submitInspection(currentInspectionID) {
+	return WL.Server.invokeSQLStatement({
+		preparedStatement : submitInspectionStatement,
+		parameters : [currentInspectionID]
+	});
+	
 }
 

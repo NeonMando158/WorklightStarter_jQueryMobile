@@ -16,7 +16,9 @@ var currentInspectionID = null;
 
 $(".inspection").live("click", function(){
 	console.log("id = " + $(this).attr("id"));
-	displayInspection($(this).attr("id"));
+	if (inspections[$(this).attr("id") - 1].complete_date === null) {
+		displayInspection($(this).attr("id"));
+	}
 });
 
 $(".inspectionItem").live("click", function(){
@@ -48,7 +50,14 @@ function loadInspectionsOK(data){
 	for (var i=0; i<inspections.length; i++){
 		var dataItem = inspections[i];
 		
-		var listItem = $("<li class='inspection' id='" + dataItem.ID + "'><a href='#'><h3>" + dataItem.inspection_title + "</h3><p>Owned by: <strong>" + dataItem.owner_name + "</strong></p><p class='ui-li-aside'>Inspection due: <strong>" + dataItem.due_date + "</strong></p></a></li>");
+		var inpectionComplete;
+		if (dataItem.complete_date !== null){
+			inpectionComplete = "<strong style='color: green;'>Finished</strong>";
+		} else {
+			inpectionComplete = "<strong style='color: green;'></strong>";
+		}
+		
+		var listItem = $("<li class='inspection' id='" + dataItem.ID + "'><a href='#'><h3>" + dataItem.inspection_title + "&#160;&#160;&#160;&#160;" + inpectionComplete + "</h3><p>Owned by: <strong>" + dataItem.owner_name + "</strong> </p><p class='ui-li-aside'>Inspection due: <strong>" + dataItem.due_date + "</strong></p></a></li>");
 		$("#inspectionsList").append(listItem);
 	}
 	
@@ -275,6 +284,46 @@ function showErrorMessage(text){
 	$.mobile.hidePageLoadingMsg();
 	$("#DialogText").html(text);
 	$.mobile.changePage("#DialogPage");
+}
+
+//pulls down items from an inspection
+function submitInspection(){
+	$.mobile.showPageLoadingMsg();
+	
+	// TODO check that all items were submitted
+	
+	
+	var invocationData = {
+			adapter: "SQLAdapter",
+			procedure: "submitInspection",
+			parameters: [currentInspectionID]
+	};
+	
+	WL.Client.invokeProcedure(invocationData, {
+		onSuccess: submitInspectionOK, 
+		onFailure: submitInspectionFAIL
+	});
+}
+
+function submitInspectionOK(data){
+
+	loadInspections();
+	$.mobile.hidePageLoadingMsg();
+	
+	var data = "from=IWM@us.ibm.com&to=" + inspections[currentInspectionID - 1].owner_email + "&subject=" + inspections[currentInspectionID - 1].inspection_title + " has been finished&content=" +
+	inspections[currentInspectionID - 1].inspection_title + " has been successfully completed. Please login to view it.";
+	$.ajax({
+		type:"POST",
+		url:"http://ralphpina.net/sendMail3.php",
+		data: data
+	});
+	
+    $.mobile.changePage("#mainPage");
+	
+}
+
+function submitInspectionFAIL(data){
+	showErrorMessage("Server connectivity error");
 }
 
 //populate and change page to contact page

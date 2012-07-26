@@ -32,5 +32,6 @@
  		<procedure name="getInspections" />
  		<procedure name="getItemInfo" />
  		<procedure name="putItem" />
+ 		<procedure name="submitInspection" />
  		
 </wl:adapter>
